@@ -28,10 +28,18 @@ public class Cart {
         items.clear();
     }
 
+    public double subTotal() {
+        double total = 0;
+        for (var i : items) {
+            total += i.getPrice();
+        }
+        return total;
+    }
+
     public boolean removeItem(String productId, int amount) {
         for (var item : items) {
             if (item.getProduct().getId().equals(productId)) {
-                if (item.getQuantity() - amount < 0) {
+                if (item.getQuantity() - amount <= 0) {
                     return items.remove(item);
                 } else {
                     item.setQuantity(item.getQuantity() - amount);

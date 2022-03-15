@@ -112,100 +112,123 @@
           </li>
         </ul>
         <div id="items">
-            <div class="row">
-              <div class="col-md-3" th:each="product : ${products}">
-                <figure class="card card-product">
-                  <span class="badge-new"> NEW </span>
-                  <div class="img-wrap">
-                    <img th:src="@{${'/images/items/'+ product.image}}">
-                    <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                  </div>
-                  <figcaption class="info-wrap">
-                    <a class="title" href="#"><span th:text="${product.name}"></span></a>
-                    <div class="action-wrap">
-                      <a class="btn btn-primary btn-sm float-right" href="#"> <i class="fa fa-cart-plus"></i> Add </a>
-                      <div class="price-wrap h5">
-                        <span class="price-new">$1280</span>
-                      </div> <!-- price-wrap.// -->
-                    </div> <!-- action-wrap -->
-                  </figcaption>
-                </figure> <!-- card // -->
-              </div> <!-- col // -->
-            </div>
+          <div class="row">
+            <div class="col-md-3" th:each="product : ${products}">
+              <figure class="card card-product">
+                <span class="badge-new"> NEW </span>
+                <div class="img-wrap">
+                  <img th:src="@{${'/images/items/'+ product.image}}">
+                  <a class="btn-overlay" href="#">
+                    <i class="fa fa-search-plus"></i>
+                    Quick view
+                  </a>
+                </div>
+                <figcaption class="info-wrap">
+                  <a class="title" href="#"><span th:text="${product.name}"></span></a>
+                  <div class="action-wrap">
+                    <button class="btn btn-primary btn-sm float-right" th:onclick="onPlus([[${product.id}]])"
+                            type="button">
+                      <i class="fa fa-cart-plus"></i> Add
+                    </button>
+                    <div class="price-wrap h5">
+                      <span class="price-new" th:text="${product.price}"></span>
+                    </div> <!-- price-wrap.// -->
+                  </div> <!-- action-wrap -->
+                </figcaption>
+              </figure> <!-- card // -->
+            </div> <!-- col // -->
           </div>
+        </div>
       </div>
       <div class="col-md-4">
         <div class="card">
-            <div id="cart">
-              <table class="table table-hover shopping-cart-wrap">
-                <thead class="text-muted">
-                  <tr>
-                    <th scope="col">Item</th>
-                    <th scope="col" width="120">Qty</th>
-                    <th scope="col" width="120">Price</th>
-                    <th class="text-right" scope="col" width="200">Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
+          <div id="cart">
+            <table class="table table-hover shopping-cart-wrap">
+              <thead class="text-muted">
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col" width="120">Qty</th>
+                <th scope="col" width="120">Price</th>
+                <th class="text-right" scope="col" width="200">Delete</th>
+              </tr>
+              </thead>
+              <tbody>
 
-                  <tr th:each="item : ${cart.items}">
-                    <td>
-                      <figure class="media">
-                        <div class="img-wrap">
-                          <img class="img-thumbnail img-xs"
-                               th:src="@{${'/images/items/'+ item.product.image}}">
-                        </div>
-                        <figcaption class="media-body">
-                          <h6 class="title text-truncate"><span th:text="${item.product.name}"></span></h6>
-                        </figcaption>
-                      </figure>
-                    </td>
-                    <td class="text-center">
-                      <div aria-label="..." class="m-btn-group m-btn-group--pill btn-group mr-2" role="group">
-                        <button class="m-btn btn btn-default" type="button"><i class="fa fa-minus"></i></button>
-                        <button class="m-btn btn btn-default" disabled type="button"><span
-                            th:text="${item.quantity}"></span></button>
-                        <button class="m-btn btn btn-default" type="button"><i class="fa fa-plus"></i></button>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="price-wrap">
-                        <var class="price"><span th:text="${item.product.price}"></span></var>
-                      </div> <!-- price-wrap .// -->
-                    </td>
-                    <td class="text-right">
-                      <a class="btn btn-outline-danger" href=""> <i class="fa fa-trash"></i></a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+              <tr th:each="item : ${cart.items}">
+                <td>
+                  <figure class="media">
+                    <div class="img-wrap">
+                      <img class="img-thumbnail img-xs" th:src="@{${'/images/items/'+ item.product.image}}">
+                    </div>
+                    <figcaption class="media-body">
+                      <h6 class="title text-truncate"><span th:text="${item.product.name}"></span></h6>
+                    </figcaption>
+                  </figure>
+                </td>
+                <td class="text-center">
+                  <div aria-label="..." class="m-btn-group m-btn-group--pill btn-group mr-2" role="group">
+                    <button class="m-btn btn btn-default" th:onclick="onMinus([[${item.product.id}]])" type="button">
+                      <i class="fa fa-minus"></i>
+                    </button>
+                    <button class="m-btn btn btn-default" disabled type="button">
+                      <span th:text="${item.quantity}"></span>
+                    </button>
+                    <button class="m-btn btn btn-default" th:onclick="onPlus([[${item.product.id}]])" type="button">
+                      <i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div class="price-wrap">
+                    <var class="price"><span th:text="${item.product.price}"></span></var>
+                  </div> <!-- price-wrap .// -->
+                </td>
+                <td class="text-right">
+                  <button class="btn btn-outline-danger"
+                          th:onclick="onMinus([[${item.product.id}]], [[${item.quantity}]])"
+                          type="button">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
         </div> <!-- card.// -->
         <div class="box">
           <dl class="dlist-align">
             <dt>Tax:</dt>
-            <dd class="text-right">12%</dd>
+            <dd class="text-right" th:text="${tax*100}+'%'"></dd>
           </dl>
           <dl class="dlist-align">
             <dt>Discount:</dt>
-            <dd class="text-right"><a href="#">0%</a></dd>
+            <dd class="text-right">
+              <a href="#" th:text="${discount*100}+'%'"></a>
+            </dd>
           </dl>
           <dl class="dlist-align">
             <dt>Sub Total:</dt>
-            <dd class="text-right">$215</dd>
+            <dd class="text-right" th:text="'$'+${#numbers.formatDecimal(cart.subTotal(), 1, 2)}"></dd>
           </dl>
           <dl class="dlist-align">
             <dt>Total:</dt>
-            <dd class="text-right h4 b"> $215</dd>
+            <dd class="text-right h4 b"
+                th:text="${#numbers.formatDecimal(cart.subTotal()*(1+tax)*(1-discount), 1, 2)}">
+              $215
+            </dd>
           </dl>
           <div class="row">
             <div class="col-md-6">
-              <a class="btn  btn-default btn-error btn-lg btn-block" href="#"><i class="fa fa-times-circle "></i>
-                Cancel </a>
+              <button class="btn btn-default btn-error btn-lg btn-block" onclick="newCart()" type="button">
+                <i class="fa fa-times-circle"></i>
+                Cancel
+              </button>
             </div>
             <div class="col-md-6">
-              <a class="btn  btn-primary btn-lg btn-block" href="#"><i class="fa fa-shopping-bag"></i>
-                Charge </a>
+              <button class="btn btn-primary btn-lg btn-block" onclick="checkout()" type="button">
+                <i class="fa fa-shopping-bag"></i>
+                Charge
+              </button>
             </div>
           </div>
         </div> <!-- box.// -->
@@ -234,6 +257,65 @@
     cart.height(445);
     cart.overlayScrollbars({});
   });
+
+  const onPlus = (id, quantity = 1) => {
+    console.log(id);
+    $.ajax({
+      url: `/cart/${id}`,
+      type: 'PUT',
+      data: {quantity},
+      success: function (data) {
+        console.log("ok");
+        if (data === 'FAIL') {
+          alert('Error adding to cart');
+        } else {
+          location.reload();
+        }
+      }
+    });
+  };
+
+  const onMinus = (id, quantity = 1) => {
+    $.ajax({
+      url: `/cart/${id}`,
+      type: 'DELETE',
+      data: {quantity},
+      success: function (data) {
+        console.log("ok");
+        if (data === 'FAIL') {
+          alert('Error remove item from cart');
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }
+
+  const newCart = () => {
+    confirm('Are you sure to empty your current cart?') && $.ajax({
+      url: '/cart',
+      type: 'PUT',
+      success: function (data) {
+        console.log("ok");
+        if (data === 'FAIL') {
+          alert('Error renewing a new cart');
+        } else {
+          location.reload();
+        }
+      }
+    });
+  }
+
+  const checkout = () => {
+    confirm('Are you sure to charge?') && $.post('/cart', {}, function (data) {
+      console.log("ok");
+      if (data === 'FAIL') {
+        alert('Error renewing a new cart');
+      } else {
+        location.reload();
+      }
+    });
+  }
 </script>
 </body>
 

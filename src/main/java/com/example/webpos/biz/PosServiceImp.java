@@ -81,6 +81,16 @@ public class PosServiceImp implements PosService {
     }
 
     @Override
+    public double getTaxRate() {
+        return 0.12;
+    }
+
+    @Override
+    public double getDiscountRate() {
+        return 0;
+    }
+
+    @Override
     public List<Product> products() {
         return posDB.getProducts();
     }

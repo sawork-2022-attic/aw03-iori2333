@@ -22,5 +22,9 @@ public interface PosService {
 
     boolean clear();
 
+    double getTaxRate();
+
+    double getDiscountRate();
+
     List<Product> products();
 }
