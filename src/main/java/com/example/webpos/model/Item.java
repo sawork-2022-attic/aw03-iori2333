@@ -10,7 +10,11 @@ public class Item {
     private int quantity;
 
     @Override
-    public String toString(){
-        return product.toString() +"\t" + quantity;
+    public String toString() {
+        return product.toString() + "\t" + quantity;
+    }
+
+    public double getPrice() {
+        return product.getPrice() * quantity;
     }
 }
